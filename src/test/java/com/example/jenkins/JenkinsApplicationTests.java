@@ -13,6 +13,6 @@ class JenkinsApplicationTests {
 	}
 	@Test
 	void contextLoadsooooooo() {
-		Assert.hasText("Tes","Tesx");
+		Assert.hasText("Tes","Tes");
 	}
 }
