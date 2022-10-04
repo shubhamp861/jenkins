@@ -14,5 +14,6 @@ public class JenkinsApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Up.................................");
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@.................................");
 	}
 }
