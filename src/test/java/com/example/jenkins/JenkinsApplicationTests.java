@@ -1,5 +1,6 @@
 package com.example.jenkins;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
@@ -13,6 +14,8 @@ class JenkinsApplicationTests {
 	}
 	@Test
 	void contextLoadsooooooo() {
-		Assert.hasText("Tes","Tes");
+		Assertions.assertEquals(1,2);
+		Assert.hasText("Tes","Tesx"
+		);
 	}
 }
