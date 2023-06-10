@@ -1,0 +1,98 @@
+import javax.naming.*;
+
+import javax.naming.directory.*;
+
+import java.util.*;
+
+public class ActiveDirectoryUserSearch {
+
+    public static void main(String[] args) {
+
+        // Configure the LDAP connection properties
+
+        String ldapURL = "ldap://your_ldap_server:389";
+
+        String ldapUsername = "your_username";
+
+        String ldapPassword = "your_password";
+
+        String searchBase = "dc=your_domain,dc=com";
+
+        // User to search for
+
+        String usernameToFind = "username_to_find";
+
+        // Set up the environment for creating the initial context
+
+        Hashtable<String, String> env = new Hashtable<>();
+
+        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+        env.put(Context.PROVIDER_URL, ldapURL);
+
+        env.put(Context.SECURITY_AUTHENTICATION, "simple");
+
+        env.put(Context.SECURITY_PRINCIPAL, ldapUsername);
+
+        env.put(Context.SECURITY_CREDENTIALS, ldapPassword);
+
+        try {
+
+            // Create the initial context
+
+            DirContext ctx = new InitialDirContext(env);
+
+            // Create the search controls
+
+            SearchControls searchControls = new SearchControls();
+
+            searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+            // Set up the LDAP search filter
+
+            String searchFilter = "(sAMAccountName=" + usernameToFind + ")";
+
+            // Perform the search
+
+            NamingEnumeration<SearchResult> results = ctx.search(searchBase, searchFilter, searchControls);
+
+            // Process the search results
+
+            while (results.hasMore()) {
+
+                SearchResult searchResult = results.next();
+
+                Attributes attributes = searchResult.getAttributes();
+
+                // Retrieve desired attributes (e.g., display name, email, etc.)
+
+                Attribute displayNameAttr = attributes.get("displayName");
+
+                String displayName = (String) displayNameAttr.get();
+
+                Attribute emailAttr = attributes.get("mail");
+
+                String email = (String) emailAttr.get();
+
+                System.out.println("Username: " + usernameToFind);
+
+                System.out.println("Display Name: " + displayName);
+
+                System.out.println("Email: " + email);
+
+            }
+
+            // Close the context
+
+            ctx.close();
+
+        } catch (NamingException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+}
+
