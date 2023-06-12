@@ -1,0 +1,88 @@
+import javax.naming.Context;
+
+import javax.naming.NamingException;
+
+import javax.naming.directory.DirContext;
+
+import javax.naming.directory.ModificationItem;
+
+import javax.naming.ldap.Control;
+
+import javax.naming.ldap.InitialLdapContext;
+
+import javax.naming.ldap.LdapContext;
+
+import javax.naming.ldap.SortControl;
+
+import javax.naming.ldap.SortKey;
+
+import java.util.Hashtable;
+
+public class ADPasswordResetWithSSL {
+
+    private static final String LDAP_URL = "ldaps://your-ad-server:636";
+
+    private static final String ADMIN_USERNAME = "admin-username";
+
+    private static final String ADMIN_PASSWORD = "admin-password";
+
+    private static final String USER_DN = "cn=user,ou=users,dc=your-domain,dc=com";
+
+    public static void main(String[] args) {
+
+        try {
+
+            // Set up the environment for establishing the LDAP connection with SSL
+
+            Hashtable<String, Object> env = new Hashtable<>();
+
+            env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+            env.put(Context.PROVIDER_URL, LDAP_URL);
+
+            env.put(Context.SECURITY_AUTHENTICATION, "simple");
+
+            env.put(Context.SECURITY_PRINCIPAL, ADMIN_USERNAME);
+
+            env.put(Context.SECURITY_CREDENTIALS, ADMIN_PASSWORD);
+
+            // Enable SSL/TLS
+
+            env.put(Context.SECURITY_PROTOCOL, "ssl");
+
+            env.put("java.naming.ldap.factory.socket", "javax.net.ssl.SSLSocketFactory");
+
+            // Create the initial LDAP context
+
+            LdapContext context = new InitialLdapContext(env, null);
+
+            // Specify the new password for the user
+
+            String newPassword = "new-password";
+
+            // Create the modification item for resetting the password
+
+            ModificationItem[] mods = new ModificationItem[1];
+
+            mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new javax.naming.directory.BasicAttribute("unicodePwd", newPassword.getBytes("UTF-16LE")));
+
+            // Perform the password reset operation
+
+            context.modifyAttributes(USER_DN, mods);
+
+            System.out.println("Password reset successful.");
+
+            // Close the LDAP context
+
+            context.close();
+
+        } catch (NamingException | java.io.UnsupportedEncodingException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+}
+
