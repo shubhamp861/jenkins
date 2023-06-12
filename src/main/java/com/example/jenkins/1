@@ -1,0 +1,88 @@
+import javax.naming.Context;
+
+import javax.naming.NamingException;
+
+import javax.naming.directory.DirContext;
+
+import javax.naming.directory.SearchControls;
+
+import javax.naming.directory.SearchResult;
+
+import javax.naming.ldap.InitialLdapContext;
+
+import javax.naming.ldap.LdapContext;
+
+import java.util.Hashtable;
+
+public class ADUserAuthenticationWithSSL {
+
+    private static final String LDAP_URL = "ldaps://your-ad-server:636";
+
+    private static final String BASE_DN = "dc=your-domain,dc=com";
+
+    private static final String USERNAME = "user-username";
+
+    private static final String PASSWORD = "user-password";
+
+    public static void main(String[] args) {
+
+        try {
+
+            // Set up the environment for establishing the LDAP connection with SSL
+
+            Hashtable<String, Object> env = new Hashtable<>();
+
+            env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+            env.put(Context.PROVIDER_URL, LDAP_URL);
+
+            env.put(Context.SECURITY_AUTHENTICATION, "simple");
+
+            env.put(Context.SECURITY_PRINCIPAL, "cn=" + USERNAME + "," + BASE_DN);
+
+            env.put(Context.SECURITY_CREDENTIALS, PASSWORD);
+
+            // Enable SSL/TLS
+
+            env.put(Context.SECURITY_PROTOCOL, "ssl");
+
+            env.put("java.naming.ldap.factory.socket", "javax.net.ssl.SSLSocketFactory");
+
+            // Create the initial LDAP context
+
+            LdapContext context = new InitialLdapContext(env, null);
+
+            // Perform a search operation to verify user authentication
+
+            String searchFilter = "(sAMAccountName=" + USERNAME + ")";
+
+            SearchControls searchControls = new SearchControls();
+
+            searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+            SearchResult searchResult = context.search(BASE_DN, searchFilter, searchControls).next();
+
+            if (searchResult != null) {
+
+                System.out.println("User authentication successful.");
+
+            } else {
+
+                System.out.println("User authentication failed.");
+
+            }
+
+            // Close the LDAP context
+
+            context.close();
+
+        } catch (NamingException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+}
+
