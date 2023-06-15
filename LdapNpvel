@@ -1,0 +1,70 @@
+import com.novell.ldap.*;
+
+public class LDAPPasswordReset {
+
+    public static void main(String[] args) {
+
+        String ldapHost = "ldap.example.com"; // LDAP server host
+
+        int ldapPort = 389; // LDAP server port
+
+        String adminDN = "cn=admin,dc=example,dc=com"; // DN of the LDAP administrator
+
+        String adminPassword = "adminpassword"; // Password of the LDAP administrator
+
+        String userDN = "cn=John Doe,ou=users,dc=example,dc=com"; // DN of the user to reset password for
+
+        String newPassword = "newpassword"; // New password for the user
+
+        
+
+        try {
+
+            LDAPConnection ldapConnection = new LDAPConnection();
+
+            ldapConnection.connect(ldapHost, ldapPort);
+
+            
+
+            // Bind to the LDAP server using the administrator DN and password
+
+            ldapConnection.bind(LDAPConnection.LDAP_V3, adminDN, adminPassword.getBytes("UTF8"));
+
+            
+
+            // Create a modification to set the new password
+
+            LDAPAttribute passwordAttribute = new LDAPAttribute("userPassword", newPassword);
+
+            LDAPModification passwordModification = new LDAPModification(LDAPModification.REPLACE, passwordAttribute);
+
+            
+
+            // Modify the user's entry to reset the password
+
+            ldapConnection.modify(userDN, passwordModification);
+
+            
+
+            // Disconnect from the LDAP server
+
+            ldapConnection.disconnect();
+
+            
+
+            System.out.println("Password reset successful.");
+
+        } catch (LDAPException e) {
+
+            e.printStackTrace();
+
+        } catch (UnsupportedEncodingException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+}
+
