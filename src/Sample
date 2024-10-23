@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esports Bridge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">ESPORTS BRIDGE</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Players</a></li>
+                    <li><a href="#">Teams</a></li>
+                    <li><a href="#">Tournaments</a></li>
+                    <li><a href="#">Newsletter</a></li>
+                    <li><a href="#">Product</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="register">Register</a>
+                <a href="#" class="login">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>FIND A TEAM OR RECRUIT PLAYER FOR YOUR TEAM</h1>
+            <p>India's 1st Team Finding Platform</p>
+            <div class="stats">
+                <div class="stat">
+                    <h2>123,456</h2>
+                    <p>Players Onboard</p>
+                </div>
+                <div class="stat">
+                    <h2>654,321</h2>
+                    <p>Players Onboard</p>
+                </div>
+            </div>
+            <div class="buttons">
+                <a href="#" class="premium">Premium</a>
+                <p>Basic usage is free</p>
+            </div>
+        </div>
+        <div class="hero-image"></div>
+    </section>
+</body>
+</html>
+_________
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    background-color: #000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #2c2c2c;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.auth-buttons a {
+    text-decoration: none;
+    color: #fff;
+    margin-left: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #6a4cdb;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('background.jpg') center/cover no-repeat;
+    padding: 50px;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 24px;
+    margin-bottom: 40px;
+}
+
+.stats {
+    display: flex;
+    gap: 40px;
+}
+
+.stat h2 {
+    font-size: 36px;
+}
+
+.stat p {
+    font-size: 18px;
+}
+
+.buttons {
+    margin-top: 30px;
+}
+
+.premium {
+    background-color: #6a4cdb;
+    padding: 10px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.hero-image {
+    background-image: url('motorbike-image.jpg'); /* Replace with your actual image path */
+    width: 50%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+}
